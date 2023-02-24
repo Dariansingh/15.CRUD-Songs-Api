@@ -22,6 +22,12 @@ export class SongsList extends React.Component {
     await songsApi.delete(songId)
     this.fetchSongs()
   }
+
+  updateSong = async (songId, updateSongTitle, updateSongGenre) => {
+    await songsApi.update({ title: updateSongTitle, genre: updateSongGenre, id: songId })
+    this.setState({ updateSongTitle: '', updateSongGenre: '' })
+    this.fetchSongs()
+  }
 //createSong - Called when the form is submitted, calls the post() method of the songsApi to add a new song with the newSongTitle and newSongGenre states, resets the newSongTitle and newSongGenre states, and then calls fetchSongs() to update the list of songs.
   createSong = async (event) => {
     event.preventDefault()
@@ -40,12 +46,23 @@ export class SongsList extends React.Component {
   }
 //render - Renders the list of songs, the form to add new songs, and the delete button for each song.
   render() {
-    const { songs, newSongTitle, newSongGenre } = this.state
+    const { x, y, songs, newSongTitle, newSongGenre } = this.state
     let songItems = null
     if (songs.length > 0) {
       songItems = songs.map((song) => (
         <li key={song.id}>
-          {song.title} - {song.genre}
+          <form>
+          <label>
+            {song.title}
+            <input type="text" onChange={this.updateSongTitle}/>
+          </label>
+          <label>
+            {song.genre}
+            <input type="text" onChange={this.updateSongGenre} />
+            
+          </label>
+          </form>
+          <button onClick={() => this.updateSong(song.id, x, y)}>Update</button>
           <button onClick={() => this.deleteSong(song.id)}>Delete</button>
         </li>
       ))

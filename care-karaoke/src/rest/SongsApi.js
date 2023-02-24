@@ -13,9 +13,9 @@ class SongsApi {
   }
 
   // Method to update a song on the API
-  put = async (song) => {
+  update = async (song) => {
     try {
-      const resp = await fetch(`${SONGS_ENDPOINT}/${song._id}`, {
+      const resp = await fetch(`${SONGS_ENDPOINT}/${song.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
